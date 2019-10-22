@@ -1,0 +1,16 @@
+{
+  "name": "es6-boilerplate",
+  "version": "1.0.0",
+  "description": "Node ES6 boilerplate",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsc-watch --onSuccess \"node ./dist/server.js\""
+  },
+  "author": "Richard Munoz",
+  "license": "ISC",
+  "dependencies": {
+    "tsc-watch": "^4.0.0",
+    "typescript": "^3.6.4"
+  }
+}
