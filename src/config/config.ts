@@ -1,3 +1,3 @@
 export default {
-  jwtSecret: "crifa2019"
+  jwtSecret: process.env.JWT_SECRET
 };
