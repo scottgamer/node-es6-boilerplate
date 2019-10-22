@@ -2,6 +2,9 @@ import { Router } from "express";
 import cors from "cors";
 import parser from "body-parser";
 import compression from "compression";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 export const handleCors = (router: Router) =>
   router.use(cors({ credentials: true, origin: true }));
