@@ -1,3 +1,3 @@
-import searchRoutes from "./http/routes/searchRoutes";
+import usersRoutes from "./http/routes/usersRoutes";
 
-export default [...searchRoutes];
+export default [...usersRoutes];
