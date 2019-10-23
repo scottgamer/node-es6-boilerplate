@@ -6,8 +6,11 @@ import {
   CreateDateColumn,
   UpdateDateColumn
 } from "typeorm";
-// import { Length, IsNotEmpty } from "class-validator";
 import bcrypt from "bcryptjs";
+
+enum userRole {
+  ADMIN = "ADMIN"
+};
 
 @Entity()
 @Unique(["username"])
@@ -15,13 +18,13 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({type: "varchar", length: 50})
   username: string;
 
-  @Column()
+  @Column({type: "varchar", length: 255})
   password: string;
 
-  @Column()
+  @Column({type: "enum", enum: userRole})
   role: string;
 
   @Column()
