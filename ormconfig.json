@@ -8,7 +8,7 @@
   "synchronize": true,
   "logging": true,
   "entities": ["dist/http/entities/**/*.js"],
-  "migrations": ["src/http/migrations/**/*.ts"],
+  "migrations": ["dist/http/migrations/**/*.js"],
   "subscribers": ["src/http/subscribers/**/*.ts"],
   "cli": {
     "entitiesDir": "src/entity",
