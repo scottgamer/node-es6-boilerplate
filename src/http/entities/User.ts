@@ -9,7 +9,8 @@ import {
 import bcrypt from "bcryptjs";
 
 export enum userRole {
-  ADMIN = "ADMIN"
+  ADMIN = "ADMIN",
+  USER = "USER"
 }
 
 @Entity()
