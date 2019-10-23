@@ -2,20 +2,24 @@
 Skeleton Node is a RESTful API framework build on top of Express.
 
 ## Requirements
-- Node.js 10.16
-- NPM 6.12
-- PM2 4.1
+- node.js 10.16
+- typescript 3.6
+- npm 6.12
+- pm2 4.1
+
+These packages must be installed globally.
+
+** Example: ```npm install typescript -g``` 
 
 ## How to run this project
-Clone the repo to your local folder
+1. Clone the repo to your local folder
+1. Run ```npm install``` command
+1. Run ```npm start``` command
 
-```bash
-npm install
-``` 
-```bash
-npm start
-```
-The process should start running on a PM2 instance.
+The process should start running on a pm2 instance.
+
+## Project folder structure
+TODO...
 
 ## Database configuration
 ### TypeORM
@@ -31,6 +35,12 @@ Some of its functionality includes:
 
 Refer to the official docs to dive deeper: https://typeorm.io/
 
+### Installation
+
+Run ```npm install typeorm -g``` command.
+
+This allows running commands from the TypeORM cli to create migrations.
+
 ### Configuration
 To set the connection to the database modify the following parameters in ./ormconfig.json file:
 ```json
@@ -41,11 +51,32 @@ To set the connection to the database modify the following parameters in ./ormco
     "username": "your_username",
     "password": "your_password",
     "database": "your_database",
-    "synchronize": false, //set to true to create the tables based on the models
-    "logging": false, //set to ture to display logging messages
+    "synchronize": false, 
+    "logging": false,
     ...
   }
 ```
+#### *Important:
+The parameters ```synchronize``` and ```logging``` should only be set to ```true``` during development.
+
+### Migrations
+TypeORM allows running migration scripts to seed the databse with initial values.
+
+If you need to create a new migration run the following command:
+
+```bash
+typeorm migration:create -n MigrationtName
+```
+
+This will save a time-stamped migration script in the /dist/http/migrations folder. Edit the file with suitable data.
+
+To run the migrations run the following command: 
+
+```bash
+npm run migration:run
+```
+
+
 
 
 
