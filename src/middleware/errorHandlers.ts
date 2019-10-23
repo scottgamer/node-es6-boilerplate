@@ -1,6 +1,12 @@
 import { Request, Response, NextFunction, Router } from "express";
 import * as ErrorHandler from "../utils/ErrorHandler";
 
+const handle401Error = (router: Router) => {
+  router.use((req: Request, res: Response) => {
+    ErrorHandler.unauthorizedError();
+  });
+};
+
 const handle404Error = (router: Router) => {
   router.use((req: Request, res: Response) => {
     ErrorHandler.notFoundError();
@@ -19,4 +25,4 @@ const handleServerError = (router: Router) => {
   });
 };
 
-export default [handle404Error, handleClientError, handleServerError];
+export default [handle401Error, handle404Error, handleClientError, handleServerError];
