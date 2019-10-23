@@ -9,8 +9,6 @@ import {
 // import { Length, IsNotEmpty } from "class-validator";
 import bcrypt from "bcryptjs";
 
-// TODO: fix decorators for typeorm
-
 @Entity()
 @Unique(["username"])
 export class User {

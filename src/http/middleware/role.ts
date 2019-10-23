@@ -16,8 +16,6 @@ export const checkRole = (roles: Array<string>) => {
       res.status(401).send("Unauthorized");
     }
 
-    // TODO: fix user value assign
-
     // check if array of authorized roles includes the user's role
     if (roles.indexOf(user.role) > -1) next();
     else res.status(401).send("Unauthorized");

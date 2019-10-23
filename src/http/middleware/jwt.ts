@@ -14,8 +14,6 @@ export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
     return;
   }
 
-  // TODO: fix types
-
   // token is valid for 1 hour
   // send a new token on every request
   const { userId, username } = jwtPayload;
