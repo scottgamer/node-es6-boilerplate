@@ -8,9 +8,9 @@ import {
 } from "typeorm";
 import bcrypt from "bcryptjs";
 
-enum userRole {
+export enum userRole {
   ADMIN = "ADMIN"
-};
+}
 
 @Entity()
 @Unique(["username"])
@@ -18,21 +18,19 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({type: "varchar", length: 50})
+  @Column({ type: "varchar", length: 50 })
   username: string;
 
-  @Column({type: "varchar", length: 255})
+  @Column({ type: "varchar", length: 255 })
   password: string;
 
-  @Column({type: "enum", enum: userRole})
+  @Column({ type: "enum", enum: userRole })
   role: string;
 
-  @Column()
-  @CreateDateColumn()
+  @CreateDateColumn({name: "created_at"})
   createdAt: Date;
 
-  @Column()
-  @UpdateDateColumn()
+  @UpdateDateColumn({name: "updated_at"})
   updatedAt: Date;
 
   hashPassword() {
