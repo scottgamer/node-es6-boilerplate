@@ -13,9 +13,14 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
   }
 };
 
-// TODO: implement login
 export const login = async (req: Request, res: Response, next: NextFunction) => {
-  // res.status(200).send(response);
+  try {
+    const {username, password} = req.body;
+    const response = await authProcess.login(username, password);
+    res.status(200).send(response);
+  } catch (error) {
+    clientError(error, res, next);
+  }
 };
 
 // TODO: implement change password
