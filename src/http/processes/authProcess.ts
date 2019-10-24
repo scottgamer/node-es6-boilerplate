@@ -1,6 +1,6 @@
 import { User } from "../entities/User";
 import * as userRepository from "../repositories/userRepository";
-import { HTTP422Error } from "../../utils/httpErrors";
+import { HTTP401Error } from "../../utils/httpErrors";
 import * as jwt from "jsonwebtoken";
 import config from "../../config/config";
 
@@ -9,17 +9,12 @@ export const register = async (user: User) => {
   return { status: "ok", message: "User has been registered" };
 };
 
-// TODO: validate if its possible to handle error in validator
-
 export const login = async (username: string, password: string) => {
   const user: User = await userRepository.findByUsername(username);
-  if (!user) {
-    throw new HTTP422Error("Username is incorrect");
-  }
 
-  // check if encrypted password match
+  // check if password match
   if (!user.checkIfUnencryptedPasswordIsValid(password)) {
-    throw new HTTP422Error("Password is incorrect");
+    throw new HTTP401Error("Password is incorrect");
   }
 
   // sign JWT, valid for 1 hour
@@ -29,4 +24,21 @@ export const login = async (username: string, password: string) => {
   });
 
   return { status: "ok", message: "Successful login", token, expiresIn };
+};
+
+export const changePassword = async (res, password: string, newPassword: string) => {
+  // get id from JWT
+  const id = res.locals.jwtPayload.userId;
+  const user: User = await userRepository.findById(id);
+
+  // check if old password matches
+  if (!user.checkIfUnencryptedPasswordIsValid(password)) {
+    throw new HTTP401Error("Password is incorrect");
+  }
+
+  if (password === newPassword) {
+    throw new HTTP401Error("New password can't be the same as old password");
+  }
+  await userRepository.changePassword(id, newPassword);
+  return { status: "ok", message: "Password changed successfully" };
 };
