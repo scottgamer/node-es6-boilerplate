@@ -15,10 +15,6 @@ export const findByUsername = async (username: string) => {
 };
 
 export const register = async (userData: User) => {
-  if (await findByUsername(userData.username)) {
-    throw new HTTP422Error("Username already exists");
-  }
-
   const user = new User();
   user.username = userData.username;
   user.password = userData.password;
