@@ -44,7 +44,7 @@ Project
 |   |   |   |--CreateAdminUser.ts   // sample migration script
 |   |   |--processes                // place to store data manipulation processes
 |   |   |   |--authProcess.ts       // sample authentication process
-|   |   |--repositories
+|   |   |--repositories             // place to store repositories
 |   |   |   |--userRepository.ts    // sample script with functions to query DB
 |   |   |--routes                   // place to store de-coupled routes for each controller
 |   |   |   |--authRoutes.ts        // sample authentication routes
