@@ -15,7 +15,7 @@ export default [
   },
   {
     path: "/api/v1/auth/change-password",
-    method: "post",
+    method: "put",
     handler: [checkJwt, authController.changePassword]
   }
 ];
