@@ -20,7 +20,7 @@ These packages must be installed globally.
 1. Run `npm start` command
 
 The process should start running on a pm2 instance.
-
+___
 ## Project structure
 
 ```
@@ -76,7 +76,7 @@ Project
 |--pm2.yaml                         // sample pm2 file with configuration parameters
 |--tsconfig.json                    // typescript compiler configuration file
 ```
-
+___
 ## Database configuration
 
 ### TypeORM
@@ -139,3 +139,23 @@ To run the migrations run the following command:
 ```bash
 npm run migration:run
 ```
+___
+## Testing
+The project supports both unit and integration testing using [jest](https://jestjs.io/docs/en/getting-started) and [supertest](https://www.npmjs.com/package/supertest).
+
+#### \*Important:
+The postman collection includes end-to-end tests for stress testing.
+
+### Unit testing
+Unit testing is done to the following layers:
+- processes
+- services
+
+However, it is worth noting that unit testing can be done to every 'unit' of the application.
+
+### Integration testing
+Integration testing is done to the routes layer to test every endpoint.
+
+#### Running tests
+
+Run `npm run test` command to run both tests.
