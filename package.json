@@ -43,7 +43,6 @@
     "pm2": "^4.1.2",
     "reflect-metadata": "^0.1.10",
     "supertest": "^3.4.2",
-    "swagger-ui-express": "^4.0.2",
     "ts-node": "^8.4.1",
     "tsc-watch": "^4.0.0",
     "typeorm": "0.2.20",
@@ -66,9 +65,10 @@
     "@types/morgan": "^1.7.35",
     "@types/node": "^12.11.2",
     "@types/supertest": "^2.0.7",
-    "@types/swagger-ui-express": "^3.0.0",
+    "@types/swagger-ui-express": "^3.0.1",
     "@types/validatorjs": "^3.15.0",
     "jest": "^24.5.0",
+    "swagger-ui-express": "^4.1.2",
     "ts-jest": "^23.10.5"
   }
 }
