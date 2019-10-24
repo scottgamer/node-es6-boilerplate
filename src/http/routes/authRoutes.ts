@@ -1,5 +1,5 @@
 import * as authController from "../controllers/authController";
-import { validateRegister } from "../validators/authValidator";
+import { validateRegister, validateLogin } from "../validators/authValidator";
 import { checkJwt } from "../middleware/jwt";
 
 export default [
@@ -11,7 +11,7 @@ export default [
   {
     path: "/api/v1/auth/login",
     method: "post",
-    handler: [authController.login]
+    handler: [validateLogin, authController.login]
   },
   {
     path: "/api/v1/auth/change-password",
