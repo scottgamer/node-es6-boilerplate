@@ -118,6 +118,48 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "/api/v1/auth/change-password",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "{{AccessToken}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"password\": \"1234\",\n\t\"newPassword\": \"5678\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{node_skeleton}}/api/v1/auth/change-password",
+					"host": [
+						"{{node_skeleton}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"change-password"
+					]
+				},
+				"description": "rules:\n- password: min:4, max:20\n- newPassword: min:4, max:20"
+			},
+			"response": []
 		}
 	],
 	"protocolProfileBehavior": {}
