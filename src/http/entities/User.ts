@@ -7,6 +7,7 @@ import {
   UpdateDateColumn
 } from "typeorm";
 import bcrypt from "bcryptjs";
+import IUser from "../interfaces/IUser";
 
 export enum userRole {
   ADMIN = "ADMIN",
@@ -15,7 +16,7 @@ export enum userRole {
 
 @Entity()
 @Unique(["username"])
-export class User {
+export class User implements IUser {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -28,10 +29,10 @@ export class User {
   @Column({ type: "enum", enum: userRole })
   role: string;
 
-  @CreateDateColumn({name: "created_at"})
+  @CreateDateColumn({ name: "created_at" })
   createdAt: Date;
 
-  @UpdateDateColumn({name: "updated_at"})
+  @UpdateDateColumn({ name: "updated_at" })
   updatedAt: Date;
 
   hashPassword() {
