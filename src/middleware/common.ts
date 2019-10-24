@@ -19,6 +19,6 @@ export const handleCompression = (router: Router) => {
   router.use(compression());
 };
 
-export const handleHelmet = (router: Router)=>{
+export const handleHelmet = (router: Router) => {
   router.use(helmet());
 };
