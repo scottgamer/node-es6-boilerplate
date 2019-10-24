@@ -17,3 +17,14 @@ Validator.registerAsync(
   },
   "Username is already in use."
 );
+
+Validator.registerAsync(
+  "username_exists",
+  async (username: string, attribute, req, passes) => {
+    if (await findByUsername(username)) {
+      passes();
+    }
+    passes(false);
+  },
+  "Username is incorrect"
+);
