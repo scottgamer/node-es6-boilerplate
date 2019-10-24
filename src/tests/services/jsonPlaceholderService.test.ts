@@ -22,6 +22,7 @@ describe("JsonPlaceHolder tests", () => {
   });
 
   // TODO: add test for HTTP 500 Errors
+  
   // test("an invalid non-json response", async () => {
   //   (axios as any).get.mockImplementation(() => "Service Unavailable.");
   //   await expect(Service.getUsers()).rejects.toThrow(SyntaxError);
