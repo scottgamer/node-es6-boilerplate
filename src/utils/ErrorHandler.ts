@@ -11,6 +11,15 @@ export const unauthorizedError = () => {
   throw new HTTP401Error("Unauthorized.");
 };
 
+//TODO: test response structure
+
+// res.status(err.statusCode).send({
+//   code: err.statusCode,
+//   error: err.name,
+//   message: err.message,
+//   data: err.data
+// });
+
 export const clientError = (err: Error, res: Response, next: NextFunction) => {
   if (err instanceof HTTPClientError) {
     console.warn(err);

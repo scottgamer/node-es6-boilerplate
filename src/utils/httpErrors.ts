@@ -1,6 +1,7 @@
 export abstract class HTTPClientError extends Error {
   readonly statusCode!: number;
   readonly name!: string;
+  data: string;
 
   constructor(message: object | string) {
     if (message instanceof Object) {
@@ -40,7 +41,8 @@ export class HTTP404Error extends HTTPClientError {
 export class HTTP422Error extends HTTPClientError {
   readonly statusCode = 422;
 
-  constructor(message: string | object = "Unprocessable entity") {
+  constructor(message: string | object = "Unprocessable entity", data?: any) {
     super(message);
+    this.data = data;
   }
 }
