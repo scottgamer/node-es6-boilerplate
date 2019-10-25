@@ -1,7 +1,5 @@
 import * as Winston from "winston";
-
-//TODO: use chalk for color formatting
-// import * as Helper from "./helperFunctions";
+import chalk from "chalk";
 import DailyRotateFile = require("winston-daily-rotate-file");
 
 export const err = Winston.createLogger({
@@ -14,7 +12,11 @@ export const err = Winston.createLogger({
     Winston.format.printf((inf: any) => {
       const ts = inf.timestamp.slice(0, 19).replace("T", " ");
       try {
-        return `\n\u001b[92m${ts}\u001b[0m [${inf.level}]:\n${JSON.stringify(inf, null, 4)}`;
+        return `\n\u001b[92m${ts}\u001b[0m [${inf.level}]:\n${JSON.stringify(
+          inf,
+          null,
+          4
+        )}`;
       } catch (err) {
         return inf;
       }
@@ -78,7 +80,7 @@ export const request = Winston.createLogger({
       const ts = timestamp.slice(0, 19).replace("T", " ");
       try {
         return `\n\u001b[92m${ts}\u001b[0m [${level}]:\n${title}${
-          message.statusCode ? `- ${Helper.getColorizeStatusCode(message.statusCode)}` : ""
+          message.statusCode ? `- ${chalk.green(message.statusCode)}` : ""
         }\n${JSON.stringify(inf, null, 4)}`;
       } catch (e) {
         return inf;
