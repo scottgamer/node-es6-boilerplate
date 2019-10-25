@@ -35,11 +35,11 @@ export class User implements IUser {
   @UpdateDateColumn({ name: "updated_at" })
   updatedAt: Date;
 
-  hashPassword() {
-    this.password = bcrypt.hashSync(this.password, 8);
+  async hashPassword() {
+    this.password = await bcrypt.hash(this.password, 8)
   }
 
-  checkIfUnencryptedPasswordIsValid(unencryptedPassword: string) {
-    return bcrypt.compareSync(unencryptedPassword, this.password);
+  async checkIfUnencryptedPasswordIsValid(unencryptedPassword: string) {
+    return await bcrypt.compare(unencryptedPassword, this.password);
   }
 }
