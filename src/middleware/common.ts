@@ -3,12 +3,13 @@ import cors from "cors";
 import parser from "body-parser";
 import compression from "compression";
 import helmet from "helmet";
+import { logRequest, logResponse } from "./logger";
+import morganBody from "morgan-body";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-export const handleCors = (router: Router) =>
-  router.use(cors({ credentials: true, origin: true }));
+export const handleCors = (router: Router) => router.use(cors({ credentials: true, origin: true }));
 
 export const handleBodyRequestParsing = (router: Router) => {
   router.use(parser.urlencoded({ extended: true }));
@@ -21,4 +22,16 @@ export const handleCompression = (router: Router) => {
 
 export const handleHelmet = (router: Router) => {
   router.use(helmet());
+};
+
+export const handleRequestLogging = (router: Router) => {
+  router.use(logRequest);
+};
+
+export const handleResponseLogging = (router: Router) => {
+  router.use(logResponse);
+};
+
+export const handleBody = (router: Router) => {
+  morganBody(router);
 };

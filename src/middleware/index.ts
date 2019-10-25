@@ -3,7 +3,15 @@
  * and import them in ./middleware/index.ts *
  *******************************************/
 
-import { handleCors, handleBodyRequestParsing, handleCompression, handleHelmet } from "./common";
+import {
+  handleCors,
+  handleBodyRequestParsing,
+  handleCompression,
+  handleHelmet,
+  handleRequestLogging,
+  handleResponseLogging,
+  handleBody
+} from "./common";
 import { handleAPIDocs } from "./apiDocs";
 
 export default [
@@ -11,5 +19,8 @@ export default [
   handleBodyRequestParsing,
   handleCompression,
   handleHelmet,
-  handleAPIDocs
+  handleAPIDocs,
+  handleRequestLogging,
+  handleResponseLogging,
+  handleBody
 ];
