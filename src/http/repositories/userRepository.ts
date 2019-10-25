@@ -23,9 +23,9 @@ export const register = async (userData: User)  => {
 
   // user = { ...userData };
 
-  userData.hashPassword();
+  user.hashPassword();
   const userRepository = getRepository(User);
-  await userRepository.save(userData);
+  await userRepository.save(user);
 };
 
 export const changePassword = async (id: number, password: string) => {
