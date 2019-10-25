@@ -2,8 +2,6 @@ import { Request, Response, NextFunction } from "express";
 import * as jwt from "jsonwebtoken";
 import config from "../../config/config";
 
-// TODO: format using HTTPErrors
-
 export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
   try {
     const token = req.headers.authorization;
@@ -19,6 +17,6 @@ export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
     res.setHeader("token", newToken);
     next();
   } catch (error) {
-    res.status(401).send({ message: "Unauthenticated", error });
+    res.status(401).send({ status: "fail", error: "HTTP401Error", mesage: error.message });
   }
 };
