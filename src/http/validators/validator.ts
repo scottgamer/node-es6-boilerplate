@@ -2,8 +2,6 @@ import Validator from "../../utils/validator";
 import { Request, Response, NextFunction } from "express";
 import transformValidationErrors from "../transformers/errorTransformer";
 
-// TODO: check base validator functionality
-
 export const baseValidator = (req: Request, res: Response, next: NextFunction) => {
   const data = {};
   const rules = {};

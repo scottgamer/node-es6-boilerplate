@@ -16,10 +16,10 @@ export const findByUsername = async (username: string) => {
 // TODO: fix spread operator in register to save new user
 
 export const register = async (userData: User)  => {
-  // let user = new User();
-  // user.username = userData.username;
-  // user.password = userData.password;
-  // user.role = userData.role;
+  let user = new User();
+  user.username = userData.username;
+  user.password = userData.password;
+  user.role = userData.role;
 
   // user = { ...userData };
 
