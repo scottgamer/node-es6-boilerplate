@@ -98,7 +98,3 @@ export const request = Winston.createLogger({
     })
   ]
 });
-
-export const formatMessage = (url: string, data?: object) => {
-  return { url, data };
-};
