@@ -9,16 +9,17 @@ import { applyMiddleware, applyRoutes } from "../../utils";
 import middleware from "../../middleware";
 import errorHandlers from "../../middleware/errorHandlers";
 import routes from "../../routes";
-import { createConnection} from "typeorm";
+import { createConnection } from "typeorm";
 import "reflect-metadata";
 
 jest.mock("axios");
 
 describe("routes integration tests", () => {
   let router: Router;
+  let token: string;
 
   // initialize middleware and router
-  beforeAll(async() => {
+  beforeAll(async () => {
     await createConnection();
     router = express();
     applyMiddleware(middleware, router);
@@ -32,15 +33,27 @@ describe("routes integration tests", () => {
       .set({ "Content-Type": "application/json" })
       .send({
         username: "richard",
-        password: "1234"
+        password: "5678"
       });
     expect(response.status).toEqual(200);
+    // set token for next tests
+    token = response.body.token;
   });
 
-  test("should retrieve all users", async () => {
+  test("should fail if no jwt set", async () => {
     const response = await request(router).get("/api/v1/users");
     expect(response.status).toEqual(401);
   });
+
+  // work-around to run test after getting token
+  setTimeout(() => {
+    test("should retrieve all users", async () => {
+      const response = await request(router)
+        .get("/api/v1/users")
+        .set("Authorization", token);
+      expect(response.status).toEqual(200);
+    });
+  }, 1000);
 
   // TODO: fix error handler to not throw 401 on non defined endpoints
 
