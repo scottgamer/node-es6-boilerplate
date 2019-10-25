@@ -1,9 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import * as Logger from "../utils/Logger";
 
-// TODO: check body is being passed
- 
-
 export const logRequest = (req: Request, res: Response, next: NextFunction) => {
   Logger.request.info({
     title: `\u001b[35m Request Body ${req.method} ${req.url} \u001b[0m`,
@@ -30,4 +27,3 @@ export const logResponse = (req: Request, res: Response, next: NextFunction) => 
   });
   next();
 };
-
