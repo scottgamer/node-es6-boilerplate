@@ -1,5 +1,3 @@
-// TODO: improve code using es6 functions
-
 const transformValidationErrors = (errors: any) => {
   const formatedErrors = [];
   for (const key in errors.errors) {
@@ -12,7 +10,8 @@ const transformValidationErrors = (errors: any) => {
   }
 
   return {
-    error: "Validation error",
+    status: "fail",
+    error: "HTTP422Error",
     message: formatedErrors
   };
 };
