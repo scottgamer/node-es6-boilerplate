@@ -5,25 +5,21 @@ export const notFoundError = () => {
   throw new HTTP404Error("Method not found.");
 };
 
-// TODO: finish error handlers
-
 export const unauthorizedError = () => {
   throw new HTTP401Error("Unauthorized.");
 };
 
-//TODO: test response structure
-
-// res.status(err.statusCode).send({
-//   code: err.statusCode,
-//   error: err.name,
-//   message: err.message,
-//   data: err.data
-// });
-
 export const clientError = (err: Error, res: Response, next: NextFunction) => {
   if (err instanceof HTTPClientError) {
     console.warn(err);
-    res.status(err.statusCode).send({ status: "fail", message: err.message });
+
+    // set err.data for errors coming from services
+    res.status(err.statusCode).send({
+      status: "fail",
+      error: err.name,
+      message: err.message,
+      data: err.data
+    });
   } else {
     next(err);
   }
