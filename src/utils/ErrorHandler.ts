@@ -11,8 +11,9 @@ export const unauthorizedError = () => {
 
 export const clientError = (err: Error, res: Response, next: NextFunction) => {
   if (err instanceof HTTPClientError) {
-    console.warn(err);
-
+    if (process.env.NODE_ENV !== "production") {
+      console.warn(err);
+    }
     // set err.data for errors coming from services
     res.status(err.statusCode).send({
       status: "fail",
@@ -26,10 +27,9 @@ export const clientError = (err: Error, res: Response, next: NextFunction) => {
 };
 
 export const serverError = (err: Error, res: Response, next: NextFunction) => {
-  console.error(err);
   if (process.env.NODE_ENV === "production") {
     res.status(500).send("Internal Server Error");
-  } else {
-    res.status(500).send(err.stack);
   }
+  console.error(err);
+  res.status(500).send(err.stack);
 };
