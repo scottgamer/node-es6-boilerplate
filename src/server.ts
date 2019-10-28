@@ -6,6 +6,7 @@ import routes from "./routes";
 import "reflect-metadata";
 import { SnakeNamingStrategy } from "typeorm-naming-strategies";
 import { createConnection, getConnectionOptions } from "typeorm";
+import * as Logger from "./utils/Logger";
 
 getConnectionOptions()
   .then(connectionOptions => {
@@ -13,13 +14,13 @@ getConnectionOptions()
       ...connectionOptions,
       namingStrategy: new SnakeNamingStrategy()
     }).then(async connection => {
-      process.on("uncaughtException", e => {
-        console.log(e);
+      process.on("uncaughtException", error => {
+        Logger.err.error(error);
         process.exit(1);
       });
 
-      process.on("unhandledRejection", e => {
-        console.log(e);
+      process.on("unhandledRejection", error => {
+        Logger.info.error(error);
         process.exit(1);
       });
 
@@ -36,5 +37,5 @@ getConnectionOptions()
     });
   })
   .catch(error => {
-    console.log(error);
+    Logger.err.error(error);
   });
