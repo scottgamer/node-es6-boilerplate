@@ -7,6 +7,7 @@ export const logRequest = (req: Request, res: Response, next: NextFunction) => {
     method: req.method,
     endpoint: req.url,
     client: req.headers["x-forwarded-for"] || req.connection.remoteAddress,
+    sessionId: req.session.id,
     headers: req.headers,
     params: req.params,
     query: req.query,
