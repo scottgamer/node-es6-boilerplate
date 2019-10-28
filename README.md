@@ -23,10 +23,39 @@ The process will start running on a pm2 instance.
 
 ---
 
+## Typescript vs Javascript
+
+Typescript is ES6 with strong typing.
+
+"Typescript is Javascript for application-scale development" - TS definition.
+
+Read more: https://www.typescriptlang.org/
+
+### Advantages:
+
+- better code maintainability.
+- type safe = less errors.
+- IDE can relate objects and functions to files more easily.
+- easier to read and debug.
+- object-oriented.
+- the compiled code is more optimized than hand-coded javascript.
+
+### Disadvantages:
+
+- initial project setup can be more complicated.
+- lack of typing for some libraries can be problematic.
+
+___
+
 ## Project structure
 
 ```
 Project
+|--dist                             // compiled project source code
+|--logs                             // place to store logs
+|   |--error-YYYY-MM-dd.log         // timestamped error logs
+|   |--info-YYYY-MM-dd.log          // timestamped info logs
+|   |--requests-YYYY-MM-dd.log      // timestamped requests logs
 |--src                              // typescript source code
 |   |--config                       // configuration files
 |   |   |--config.ts                // main configuration file
@@ -87,6 +116,180 @@ Project
 ## Request flow
 
 ![Architecture](skeleton_architecture.jpg)
+
+___
+
+## Folder overview
+
+### Middleware
+
+The middleware layer deals with common HTTP libraries to add functionality to the server.
+
+These middleware is applied directly to the express object, instead of the server; this, to prefer modularity and low-coupling.
+
+Import libraries:
+
+```javascript
+import { Router } from "express";
+...
+import cors from "cors";
+import parser from "body-parser";
+import compression from "compression";
+import helmet from "helmet";
+...
+```
+
+Add functionality to the router:
+
+```javascript
+export const handleBodyRequestParsing = (router: Router) => {
+  router.use(parser.urlencoded({ extended: true }));
+  router.use(parser.json());
+};
+```
+
+Import all handlers to the index:
+
+```javascript
+import {
+  handleCors,
+  handleBodyRequestParsing,
+  handleCompression,
+  handleHelmet,
+  ...
+} from "./common";
+
+export default [
+  handleCors,
+  handleBodyRequestParsing,
+  handleCompression,
+  handleHelmet,
+  ...
+];
+
+```
+
+### Controllers
+
+The controllers layer deals only with taking the request, passing it to the process, and return the proper response with status code.
+
+- pass the Request, Response, and NextFunction objects as parameters.
+- use res.status(status_code).send(response_object); to make graceful response.
+
+```javascript
+export const register = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const user: User = req.body;
+    const response = await authProcess.register(user);
+    res.status(200).send(response);
+  } catch (error) {
+    clientError(error, res, next);
+  }
+};
+```
+
+### Processes
+
+The processes layer deals with adding logic to handle the incoming data taken from the request object.
+
+```javascript
+export const register = async (user: User) => {
+
+  /** 
+   * add code to process the User object
+  */
+
+  await userRepository.register(user);
+  return { status: "ok", message: "User has been registered" };
+};
+```
+
+### Services
+
+The services layer deals with connecting to external services or api's.
+
+Once the service responds, the data is sent back to the process layer.
+
+\*\*The following example shows the retrieval of users from the JSONPlaceholder REST API.
+
+```javascript
+export const getUsers = async () => {
+  const url = process.env.JSON_PLACEHOLDER_ULR;
+  const response = await axios.get(`${url}/users`);
+  return response;
+};
+
+```
+
+### Repositories
+
+The repositories layer deals with querying the database.
+
+TypeORM offers out-of-the-box querying methods (find, findOne, findById, ...), as well as operators to create comparisons.
+
+TypeORM also offers a QueryBuilder feature, which allows to build SQL queries with convenient syntax.
+
+```javascript
+export const findById = async (id: number) => {
+  const userRepository = getRepository(User);
+  const user = await userRepository.findOneOrFail(id);
+  return user;
+};
+
+export const findByUsername = async (username: string) => {
+  const userRepository = getRepository(User);
+  const user = await userRepository.findOne({ where: { username } });
+  return user;
+};
+```
+
+Alternative using QueryBuilder:
+
+```javascript
+const firstUser = await connection
+    .getRepository(User)
+    .createQueryBuilder("user")
+    .where("user.id = :id", { id: 1 })
+    .getOne();
+```
+
+Refer to the official docs to read more: https://typeorm.io/
+
+### Transformers
+
+The transformers layer deals with transforming the response object returned by the process layer to make it more suitable for the response.
+
+#### \*\* Important
+
+It is not mandatory to define a transformer for each response, only when necessary.
+
+### Validators
+
+The validators layer daels with validating the request object before sending it back to the controller. 
+
+This, because it is prefered to make sure that the data that is passed to the controller is correct; if it is not, the validator returns an HTTP 422 validation error.
+
+```javascript
+export const validateRegister = (req: Request, res: Response, next: NextFunction) => {
+  const data = req.body;
+  const rules = {
+    username: "required|string|min:4|max:20|username_available",
+    password: "required|string|min:4|max:20",
+    role: ["required", { in: ["ADMIN", "USER"] }]
+  };
+
+  const validator = new Validator(data, rules);
+  const passes = () => {
+    next();
+  };
+  const fails = () => {
+    const formatedErrors = transformValidationErrors(validator.errors);
+    res.status(422).send(formatedErrors);
+  };
+
+  validator.checkAsync(passes, fails);
+};
+```
 
 ---
 
@@ -234,6 +437,7 @@ The request logs store data with the following structure:
     "method": "GET",
     "endpoint": "/api/v1/users",
     "client": "::1",
+    "sessionId": "WRgK3UaufkmZY97H0Z8gFm1_aPLh34no",
     "headers": {
       "authorization": "eyJ.jwt.token",
       "user-agent": "PostmanRuntime/7.18.0",
@@ -268,6 +472,7 @@ The response logs store data with the following structure:
   "timestamp": "2019-10-25 10:55:02"
 }
 ```
+___
 
 ## Testing
 
@@ -294,6 +499,44 @@ Integration testing is done to the routes layer to test every endpoint.
 
 Run `npm run test` command to run both tests.
 
+___
+
+## Adding features, code fix,...
+
+The following are the suggested steps to add more features to the project.
+
+### Routes
+
+1. Create a new route.
+1. Add validation to the request object (params, query, body, header,...).
+1. Add middleware to check jwt, roles, .. (if necessary).
+1. Add controller logic.
+1. Add process logic.
+1. Add service logic (if necessary).
+1. Call repository or add repository logic (if necessary).
+1. Call transformer or add transformer logic (if necessary).
+1. Write unit test and integration test.
+1. Run tests and check for functionality bugs or errors.
+1. Make pull request.
+
+### Features
+
+1. Create a new feature (validator, transformer, process, middleware, ...).
+1. Write unit test and integration test.
+1. Run tests and check for functionality bugs or errors.
+1. Make pull request.
+
+### Bug fixes
+
+1. Fix bug.
+1. Create a new feature (validator, transformer, process, middleware, ...).
+1. Write unit test and integration test.
+1. Run tests and check for functionality bugs or errors.
+1. Make pull request.
+
+#### \*\* Important:
+Avoid using .then().catch() chaining methods to handle promises. Instead, prefer the more readable asyn-await syntax to favor readability and avoid nested promises and callback hell.
+
 ---
 
 ## Deployment
@@ -319,7 +562,7 @@ To start the production environment:
 
 This will build the project and start a pm2 instance.
 
-#### \*Important
+#### \*Important:
 
 Set the environment variable `NODE_ENV=production` only when the project is ready to be deployed.
 
