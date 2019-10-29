@@ -1,5 +1,9 @@
 import * as authController from "../controllers/authController";
-import { validateRegister, validateLogin } from "../validators/authValidator";
+import {
+  validateRegister,
+  validateLogin,
+  validateChangePassword
+} from "../validators/authValidator";
 import { checkJwt } from "../middleware/jwt";
 
 export default [
@@ -16,6 +20,6 @@ export default [
   {
     path: "/api/v1/auth/change-password",
     method: "put",
-    handler: [checkJwt, authController.changePassword]
+    handler: [validateChangePassword, checkJwt, authController.changePassword]
   }
 ];
