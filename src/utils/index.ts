@@ -10,13 +10,13 @@ export const applyMiddleware = (middlewareWrapper: Wrapper[], router: Router) =>
 
 type Handler = (req: Request, res: Response, next: NextFunction) => Promise<void> | void;
 
-type Route = {
+interface IRoute {
   path: string;
   method: string;
   handler: Handler | Handler[];
-};
+}
 
-export const applyRoutes = (routes: Route[], router: Router) => {
+export const applyRoutes = (routes: IRoute[], router: Router) => {
   for (const route of routes) {
     const { method, path, handler } = route;
     (router as any)[method](path, handler);

@@ -3,7 +3,7 @@ import {User, userRole} from "../entities/User";
 
 export class CreateAdminUser1571849091255 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<any> {
-    let user = new User();
+    const user = new User();
     user.username = "admin";
     user.password = "admin";
     await user.hashPassword();
@@ -12,5 +12,7 @@ export class CreateAdminUser1571849091255 implements MigrationInterface {
     await userRepository.save(user);
   }
 
-  public async down(queryRunner: QueryRunner): Promise<any> {}
+  public async down(queryRunner: QueryRunner): Promise<any> {
+    // TODO
+  }
 }

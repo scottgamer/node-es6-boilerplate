@@ -4,7 +4,7 @@ import { getRepository } from "typeorm";
 import { User } from "../entities/User";
 import { HTTP401Error } from "../../utils/httpErrors";
 
-export const checkRole = (roles: Array<string>) => {
+export const checkRole = (roles: string[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       // get userId from previous midleware
@@ -16,7 +16,7 @@ export const checkRole = (roles: Array<string>) => {
       if (!(roles.indexOf(user.role) > -1)) {
         throw new HTTP401Error("Unauthorized");
       }
-      next(); 
+      next();
     } catch (error) {
       res.status(401).send({ status: "fail", error: error.name, mesage: error.message });
     }

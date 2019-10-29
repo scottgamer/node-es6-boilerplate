@@ -36,7 +36,7 @@ export class User implements IUser {
   updatedAt: Date;
 
   async hashPassword() {
-    this.password = await bcrypt.hash(this.password, 8)
+    this.password = await bcrypt.hash(this.password, 8);
   }
 
   async checkIfUnencryptedPasswordIsValid(unencryptedPassword: string) {
