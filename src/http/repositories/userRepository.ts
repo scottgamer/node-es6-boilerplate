@@ -23,7 +23,7 @@ export const register = async (userData: User)  => {
 
   // user = { ...userData };
 
-  user.hashPassword();
+  await user.hashPassword();
   const userRepository = getRepository(User);
   await userRepository.save(user);
 };
@@ -33,6 +33,6 @@ export const changePassword = async (id: number, password: string) => {
   let user = new User();
   user = await findById(id);
   user.password = password;
-  user.hashPassword();
+  await user.hashPassword();
   await userRepository.save(user);
 };

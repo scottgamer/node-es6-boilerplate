@@ -13,7 +13,7 @@ export const login = async (username: string, password: string) => {
   const user: User = await userRepository.findByUsername(username);
 
   // check if password match
-  if (!user.checkIfUnencryptedPasswordIsValid(password)) {
+  if (!(await user.checkIfUnencryptedPasswordIsValid(password))) {
     throw new HTTP401Error("Password is incorrect");
   }
 
@@ -32,7 +32,7 @@ export const changePassword = async (res, password: string, newPassword: string)
   const user: User = await userRepository.findById(id);
 
   // check if old password matches
-  if (!user.checkIfUnencryptedPasswordIsValid(password)) {
+  if (!(await user.checkIfUnencryptedPasswordIsValid(password))) {
     throw new HTTP401Error("Password is incorrect");
   }
 
