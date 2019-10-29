@@ -26,7 +26,8 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 export const changePassword = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { password, newPassword } = req.body;
-    const response = await authProcess.changePassword(res, password, newPassword);
+    const userId: number = res.locals.jwtPayload.userId;
+    const response = await authProcess.changePassword(userId, password, newPassword);
     res.status(200).send(response);
   } catch (error) {
     clientError(error, res, next);
