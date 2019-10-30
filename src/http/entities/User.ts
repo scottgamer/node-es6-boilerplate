@@ -35,6 +35,14 @@ export class User implements IUser {
   @UpdateDateColumn({ name: "updated_at" })
   updatedAt: Date;
 
+  constructor(params?: User) {
+    for (const key in params) {
+      if (params.hasOwnProperty(key)) {
+        this[key] = params[key];
+      }
+    }
+  }
+
   async hashPassword() {
     this.password = await bcrypt.hash(this.password, 8);
   }
