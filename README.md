@@ -2,6 +2,8 @@
 
 Skeleton Node is a RESTful API framework build on top of Express.
 
+It offers a ready-to-use architecture based on the Laravel framework, including authentication and role-based authorization, database interaction with TypeORM, connection to external RESTful API's using axios, unit and integartion testing.
+
 ## Requirements
 
 - node.js 10.16
@@ -16,6 +18,8 @@ These packages must be installed globally.
 ## Quick start
 
 1. Clone the repo to your local folder
+1. Run `cp .env.example .env` command
+1. Add your configuration to .env file
 1. Run `npm install` command
 1. Run `npm start` command
 
@@ -30,21 +34,6 @@ Typescript is ES6 with strong typing.
 "Typescript is Javascript for application-scale development" - TS definition.
 
 Read more: https://www.typescriptlang.org/
-
-### Advantages:
-
-- better code maintainability.
-- type safe = less errors.
-- IDE can relate objects and functions to files more easily.
-- easier to read and debug.
-- object-oriented.
-- the compiled code is more optimized than hand-coded javascript.
-
-### Disadvantages:
-
-- initial project setup can be more complicated.
-- lack of typing for some libraries can be problematic.
-
 ___
 
 ## Project structure
@@ -115,7 +104,7 @@ Project
 
 ## Request flow
 
-![Architecture](skeleton_architecture.jpg)
+![Architecture](node_skeleton_architecture_v1.1.jpg)
 
 ___
 
@@ -318,20 +307,17 @@ This allows running commands from the TypeORM cli to create migrations.
 
 ### Configuration
 
-To set the connection to the database modify the following parameters in ./ormconfig.json file:
+To set the connection to the database modify the following parameters in .env file:
 
-```json
-  {
-    "type": "mysql",
-    "host": "localhost",
-    "port": 3306,
-    "username": "your_username",
-    "password": "your_password",
-    "database": "your_database",
-    "synchronize": false,
-    "logging": false,
-    ...
-  }
+```bash
+TYPEORM_CONNECTION = mysql
+TYPEORM_HOST = <your_host>
+TYPEORM_USERNAME = <your_username>
+TYPEORM_PASSWORD = <your_password>
+TYPEORM_DATABASE = <your_database>
+TYPEORM_PORT = 3306
+TYPEORM_SYNCHRONIZE = false
+TYPEORM_LOGGING = false
 ```
 
 #### \*Important:
@@ -539,7 +525,7 @@ Avoid using .then().catch() chaining methods to handle promises. Instead, prefer
 
 ---
 
-## Deployment
+## Environments
 
 The project includes scripts for different environments, such as, development and production.
 
@@ -550,7 +536,7 @@ To start the development environment:
 1. Run `npm install` command.
 1. Run `npm run dev` command.
 
-This will start the project and will watch for code changed.
+This will start the project and will watch for changes in code.
 The project will be auto-compiled after every save command.
 
 ### Production
@@ -564,6 +550,6 @@ This will build the project and start a pm2 instance.
 
 #### \*Important:
 
-Set the environment variable `NODE_ENV=production` only when the project is ready to be deployed.
+Set the environment variable `NODE_ENV=production` only when the project is ready to be deployed, to avoid performance issues and logging to console.
 
 In development mode this variable should be commented out.
