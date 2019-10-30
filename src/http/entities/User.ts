@@ -1,4 +1,5 @@
 import {
+  BaseEntity,
   Entity,
   PrimaryGeneratedColumn,
   Column,
@@ -16,7 +17,7 @@ export enum userRole {
 
 @Entity()
 @Unique(["username"])
-export class User implements IUser {
+export class User extends BaseEntity implements IUser {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -36,6 +37,7 @@ export class User implements IUser {
   updatedAt: Date;
 
   constructor(params?: User) {
+    super();
     for (const key in params) {
       if (params.hasOwnProperty(key)) {
         this[key] = params[key];

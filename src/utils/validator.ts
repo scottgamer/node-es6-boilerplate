@@ -1,6 +1,6 @@
 import Validator from "validatorjs";
 
-Validator.useLang("es");
+Validator.useLang("en");
 const Validatorjs = Validator;
 
 export default Validatorjs;

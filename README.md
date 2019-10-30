@@ -214,6 +214,8 @@ export const getUsers = async () => {
 
 The repositories layer deals with querying the database.
 
+The Active Record pattern is used here to define query methods inside the entity itself.
+
 TypeORM offers out-of-the-box querying methods (find, findOne, findById, ...), as well as operators to create comparisons.
 
 TypeORM also offers a QueryBuilder feature, which allows to build SQL queries with convenient syntax.
