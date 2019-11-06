@@ -2,7 +2,7 @@
 
 Skeleton Node is a RESTful API framework build on top of Express.
 
-It offers a ready-to-use architecture based on the Laravel framework, including authentication and role-based authorization, database interaction with TypeORM, connection to external RESTful API's using axios, unit and integartion testing.
+It offers a ready-to-use architecture based on the Laravel framework, including authentication and role-based authorization, database interaction with TypeORM, connection to external RESTful API's using axios, unit and integration testing.
 
 ## Requirements
 
