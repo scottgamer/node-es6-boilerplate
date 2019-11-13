@@ -32,6 +32,9 @@ getConnectionOptions()
       const { PORT = 3000 } = process.env;
 
       router.listen(PORT, () => {
+        if (process.env.NODE_ENV === "production") {
+          Logger.info.info(`Server is running on http://localhost:${PORT}`);
+        }
         console.log(`Server is running on http://localhost:${PORT}`);
       });
     });
