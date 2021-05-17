@@ -9,29 +9,29 @@ import { createConnection, getConnectionOptions } from "typeorm";
 import * as Logger from "./utils/Logger";
 
 getConnectionOptions()
-  .then(connectionOptions => {
+  .then((connectionOptions) => {
     return createConnection({
       ...connectionOptions,
-      namingStrategy: new SnakeNamingStrategy()
-    }).then(async connection => {
-      process.on("uncaughtException", error => {
+      namingStrategy: new SnakeNamingStrategy(),
+    }).then(async (connection) => {
+      process.on("uncaughtException", (error) => {
         Logger.err.error(error);
         process.exit(1);
       });
 
-      process.on("unhandledRejection", error => {
+      process.on("unhandledRejection", (error) => {
         Logger.info.error(error);
         process.exit(1);
       });
 
-      const router = express();
-      applyMiddleware(middleware, router);
-      applyRoutes(routes, router);
-      applyMiddleware(errorHandlers, router);
+      const app = express();
+      applyMiddleware(middleware, app);
+      applyRoutes(routes, app);
+      applyMiddleware(errorHandlers, app);
 
       const { PORT = 3000 } = process.env;
 
-      router.listen(PORT, () => {
+      app.listen(PORT, () => {
         if (process.env.NODE_ENV === "production") {
           Logger.info.info(`Server is running on http://localhost:${PORT}`);
         }
@@ -39,6 +39,6 @@ getConnectionOptions()
       });
     });
   })
-  .catch(error => {
-    Logger.err.error(error);
+  .catch((error) => {
+    Logger.err.error(error.message);
   });
