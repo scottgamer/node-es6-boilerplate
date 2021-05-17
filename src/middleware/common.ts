@@ -35,10 +35,10 @@ export const handleSession = (router: Router) => {
   const sess = {
     secret: "session_secret",
     cookie: {
-      secure: false
+      secure: false,
     },
     resave: true, // save session to session store
-    saveUninitialized: true // save session if not initilizaed
+    saveUninitialized: true, // save session if not initilizaed
   };
 
   if (process.env.NODE_ENV === "production") {

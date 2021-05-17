@@ -18,7 +18,7 @@ export const err = Winston.createLogger({
           4
         )}`;
       } catch (err) {
-        return inf;
+        return err.message;
       }
     })
   ),
@@ -44,12 +44,12 @@ export const info = Winston.createLogger({
     Winston.format.prettyPrint(),
     Winston.format.printf((inf: any) => {
       const { timestamp, level } = inf;
-
       const ts = timestamp.slice(0, 19).replace("T", " ");
+
       try {
         return `\n\u001b[92m${ts}\u001b[0m [${level}]:\n${JSON.stringify(inf, null, 4)}`;
       } catch (err) {
-        return inf;
+        return err.message;
       }
     })
   ),
@@ -82,8 +82,8 @@ export const request = Winston.createLogger({
         return `\n\u001b[92m${ts}\u001b[0m [${level}]:\n${title}${
           message.statusCode ? `- ${chalk.green(message.statusCode)}` : ""
         }\n${JSON.stringify(inf, null, 4)}`;
-      } catch (e) {
-        return inf;
+      } catch (error) {
+        return error.message;
       }
     })
   ),
