@@ -2,7 +2,7 @@
   "name": "es6-boilerplate",
   "version": "1.0.0",
   "description": "Node ES6 boilerplate",
-  "main": "server.js",
+  "main": "dist/server.js",
   "scripts": {
     "test": "jest",
     "dev": "tsc-watch --onSuccess \"node ./dist/server.js\"",
