@@ -43,7 +43,7 @@
     "morgan": "^1.9.1",
     "morgan-body": "^2.4.7",
     "mysql": "^2.14.1",
-    "pm2": "^4.5.6",
+    "pm2": "^5.2.0",
     "reflect-metadata": "^0.1.10",
     "supertest": "^3.4.2",
     "ts-node": "^8.4.1",
